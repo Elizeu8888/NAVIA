@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float turnsmoothing = 0.1f;
     float turnsmoothvelocity = 0.5f;
     public float maxVelocity = 1f;
+    float mouseXSmooth;
     Vector3 rbVelocity;
 
     public Transform groundcheck;
@@ -46,6 +47,13 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("walking", false);
         }
         transform.rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
+
+        anim.SetFloat("Z", direction.z);
+
+        mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X"), 4 * Time.deltaTime);
+        //transform.forward = cam.position; // (Camera.main.forward);
+        anim.SetFloat("X", mouseXSmooth + direction.x);
+
     }
 
 
