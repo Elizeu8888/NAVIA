@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-
+    public float jumpheight;
     Vector3 direction;
 
     public Rigidbody rb;
@@ -27,7 +27,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
 
-
+        //Cursor.lockState = CursorLockMode.Confined; // keep confined in the game window
+        Cursor.lockState = CursorLockMode.Locked;   // keep confined to center of screen
+        //Cursor.lockState = CursorLockMode.None;     // set to default default
     }
 
     void Update()
@@ -35,7 +37,10 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");// uses imput to find direction
         direction = new Vector3(horizontal, 0f, vertical).normalized;
+
         Movement();
+
+
         anim.SetBool("walking", false);
         if ((rb.velocity.magnitude > 1) && isgrounded)
         {
@@ -46,13 +51,20 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("walking", false);
         }
-        transform.rotation = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0);
+        if(isgrounded == false)
+        {
+            anim.SetBool("Grounded", false);
+        }
+        else
+        {
+            anim.SetBool("Grounded", true);
+        }
+
 
         anim.SetFloat("Z", direction.z);
-
-        mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X"), 4 * Time.deltaTime);
-        //transform.forward = cam.position; // (Camera.main.forward);
         anim.SetFloat("X", mouseXSmooth + direction.x);
+        mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X"), 4 * Time.deltaTime);
+
 
     }
 
@@ -60,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         isgrounded = Physics.CheckSphere(groundcheck.position, grounddistance, groundmask);
+        Jump();
     }
 
     void Movement()
@@ -75,8 +88,8 @@ public class PlayerMovement : MonoBehaviour
 
 
             
-            //float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
-            //transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
             
 
 
@@ -101,11 +114,20 @@ public class PlayerMovement : MonoBehaviour
         if (rb.velocity.sqrMagnitude > maxVelocity)// right alt and shift for||||
         {
             Vector3 endVelocity = rb.velocity;
-            //limiting the velocity yes
             endVelocity.z *= 0.9f;
             endVelocity.x *= 0.9f;
             rb.velocity = endVelocity;
 
+        }
+    }
+
+    void Jump()
+    {
+
+        if (Input.GetKey("space") && isgrounded)
+        {
+            rb.AddForce(transform.up.normalized * jumpheight, ForceMode.Impulse);// here u jump
+            isgrounded = false;
         }
     }
 }
