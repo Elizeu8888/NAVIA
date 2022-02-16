@@ -85,7 +85,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Depth_distance: -0.11
+    - Depth_distance: 1.23
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -112,9 +112,9 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - depth_strength: 0.27
+    - depth_strength: 0.04
     - normal_strength: 0.365
-    - refracyStrength: 1
+    - refracyStrength: 6.96
     - tiling: 7
     - wavehieght: -2.77
     - wavespeed: 0.019
@@ -123,8 +123,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - bottom: {r: 0, g: 0.8631201, b: 1, a: 1}
-    - top: {r: 0.082352936, g: 0.7790147, b: 1, a: 1}
+    - bottom: {r: 0, g: 1, b: 0.62745094, a: 1}
+    - top: {r: 0.25164652, g: 0.6132076, b: 0.38761818, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &252550055918135331
 MonoBehaviour:
