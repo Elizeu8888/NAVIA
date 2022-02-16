@@ -531,6 +531,7 @@ GameObject:
   m_Component:
   - component: {fileID: 407232156}
   - component: {fileID: 407232155}
+  - component: {fileID: 407232154}
   m_Layer: 0
   m_Name: THIRDCAM
   m_TagString: Untagged
@@ -538,6 +539,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &407232154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407232153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 9
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.46
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!114 &407232155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,7 +593,7 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 2500
+    FarClipPlane: 1500
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -643,7 +674,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 2500
+  far clip plane: 1500
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -828,6 +859,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8ec05b49cd4be7e49ae69f83c07f5790, type: 2}
+    - target: {fileID: -7635826562936255635, guid: cc3145fd3d098214488bf0fa84700828, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: b10fd6374b44c844cbe5551ac7b1e0e7, type: 2}
     - target: {fileID: 919132149155446097, guid: cc3145fd3d098214488bf0fa84700828, type: 3}
       propertyPath: m_Name
       value: map
