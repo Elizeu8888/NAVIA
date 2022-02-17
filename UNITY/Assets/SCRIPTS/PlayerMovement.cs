@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isgrounded;
 
     public Animator anim;
+    public GameObject weaponMenu;
 
     void Start()
     {
@@ -49,11 +50,13 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = sprintspeed;
             maxVelocity = sprintspeed;
+            anim.SetBool("Sprinting", true);
         }
         else
         {
             speed = normalspeed;
             maxVelocity = normalspeed;
+            anim.SetBool("Sprinting", false);
         }
 
 
@@ -93,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Movement()
     {
-        if (direction.magnitude >= 0.1f)
+        if (direction.magnitude >= 0.1f && !weaponMenu.activeSelf)
         {
 
 

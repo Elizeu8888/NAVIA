@@ -7,7 +7,7 @@ public class EventSwitch : MonoBehaviour
 {
     public UnityEvent use;
     public UnityEvent altUse;
-
+    public UnityEvent altUse2;
 
     //public SoundManager soundscript;
 
@@ -19,5 +19,10 @@ public class EventSwitch : MonoBehaviour
     public void AltUse()
     {
         altUse.Invoke();
+    }
+
+    public void AltUse2()
+    {
+        altUse2.Invoke();
     }
 }

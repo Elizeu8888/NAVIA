@@ -7,10 +7,14 @@ public class PlayerWeaponManager : MonoBehaviour
 
     public Collider[] weaponsCOLLIDER;
     public GameObject[] weapons;
+    GameObject weapon;
     public Transform rightHand;
 
     public bool weapondrawn = false;
     public Animator anim;
+
+    public int weaponNumber;
+    public GameObject weaponMenu;
 
     void Start()
     {
@@ -21,13 +25,25 @@ public class PlayerWeaponManager : MonoBehaviour
     {
 
         if (Input.GetKeyDown("f"))
-            weapondrawn = !weapondrawn;
-
-        if(weapondrawn == true)
         {
-            anim.SetLayerWeight(1, 1);
-            anim.SetBool("weaponOUT", true);
+            if (weapondrawn == false)
+            {
+                weaponMenu.SetActive(true);
+            }
+            else if (weaponMenu.activeSelf)
+            {
+                weaponMenu.SetActive(false);
+            }
+            weapondrawn = !weapondrawn;
+            
         }
+           
+
+        if(weaponMenu.activeSelf)           
+            Cursor.lockState = CursorLockMode.Confined;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
+
         if (weapondrawn == false)
         {
             anim.SetBool("weaponOUT", false);
@@ -35,8 +51,6 @@ public class PlayerWeaponManager : MonoBehaviour
 
 
     }
-
-
     public void LaunchAttack(Collider col, float damage)
     {
 
@@ -69,24 +83,55 @@ public class PlayerWeaponManager : MonoBehaviour
         }
 
     }
-
-
     public void WeaponActivate(GameObject wep)
     {
-        GameObject weapon = Instantiate(wep, new Vector3(0,0,0), Quaternion.identity);
+        weapon = Instantiate(wep, new Vector3(0,0,0), Quaternion.identity);
         weapon.transform.parent = rightHand;
         weapon.transform.localPosition = new Vector3(0, 0, 0);
         weapon.transform.localRotation = Quaternion.identity;
-
     }
-
-
     public void RunitWeapon()
     {
-        WeaponActivate(weapons[0]);
+        WeaponActivate(weapons[weaponNumber]);
+    }
+        
+    public void RunicRedraw()
+    {
+        Destroy(weapon);
+    }
+        
+    public void LayerWeight()
+    {
+        anim.SetLayerWeight(1, 0);
     }
 
 
-
-
+    public void Weapon1()
+    {
+        anim.SetLayerWeight(1, 1);
+        anim.SetBool("weaponOUT", true);
+        weaponNumber = 0;
+        weaponMenu.SetActive(false);
+    }
+    public void Weapon2()
+    {
+        anim.SetLayerWeight(1, 1);
+        anim.SetBool("weaponOUT", true);
+        weaponNumber = 1;
+        weaponMenu.SetActive(false);
+    }
+    public void Weapon3()
+    {
+        anim.SetLayerWeight(1, 1);
+        anim.SetBool("weaponOUT", true);
+        weaponNumber = 2;
+        weaponMenu.SetActive(false);
+    }
+    public void Weapon4()
+    {
+        anim.SetLayerWeight(1, 1);
+        anim.SetBool("weaponOUT", true);
+        weaponNumber = 3;
+        weaponMenu.SetActive(false);
+    }
 }
