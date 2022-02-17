@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public Transform cam;
     public float speed = 6f;
+    public float normalspeed;
+    public float sprintspeed;
+
+
     public float turnsmoothing = 0.1f;
     float turnsmoothvelocity = 0.5f;
     public float maxVelocity = 1f;
@@ -39,6 +43,18 @@ public class PlayerMovement : MonoBehaviour
         direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         Movement();
+
+
+        if(Input.GetKey("q"))
+        {
+            speed = sprintspeed;
+            maxVelocity = sprintspeed;
+        }
+        else
+        {
+            speed = normalspeed;
+            maxVelocity = normalspeed;
+        }
 
 
         anim.SetBool("walking", false);
