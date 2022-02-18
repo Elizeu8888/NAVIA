@@ -16,6 +16,10 @@ public class PlayerWeaponManager : MonoBehaviour
     public int weaponNumber;
     public GameObject weaponMenu;
 
+    bool comboPossible;
+    int comboStep;
+
+
     void Start()
     {
         
@@ -23,6 +27,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
     void Update()
     {
+
+
 
         if (Input.GetKeyDown("f"))
         {
@@ -49,9 +55,49 @@ public class PlayerWeaponManager : MonoBehaviour
             anim.SetBool("weaponOUT", false);
         }
 
+        if(Input.GetMouseButtonDown(0) && weapondrawn == true && !weaponMenu.activeSelf)
+        {
+            Attack();
+        }
+    }
+
+
+    public void Attack()
+    {
+        if(comboStep == 0)
+        {
+            anim.Play("attack1");
+            comboStep = 1;
+            return;
+        }
+        if(comboStep != 0)
+        {
+            if(comboPossible)
+            {
+                comboPossible = false;
+                comboStep += 1;
+
+            }
+        }
+    }
+    public void ComboPossible()
+    {
+        comboPossible = true;
+    }
+    public void Combo()
+    {
+        if(comboStep == 2)
+            anim.Play("attack2");
+        if (comboStep == 3)
+            anim.Play("attack3");
 
     }
-    public void LaunchAttack(Collider col, float damage)
+    public void ComboReset()
+    {
+        comboPossible = false;
+        comboStep = 0;
+    }
+    public void LaunchDamage(Collider col, float damage)
     {
 
         Collider[] cols = Physics.OverlapBox(col.bounds.center, col.bounds.extents, col.transform.rotation, LayerMask.GetMask("HitBoxes"));

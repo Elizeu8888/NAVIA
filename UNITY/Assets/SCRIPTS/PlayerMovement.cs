@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    bool attacking;
 
     public float jumpheight;
     Vector3 direction;
 
     public Rigidbody rb;
-    public Transform cam;
+    public Transform cam,camAIM;
     public float speed = 6f;
-    public float normalspeed;
-    public float sprintspeed;
+    public float normalspeed, sprintspeed, atkMoveSpeed;
 
 
     public float turnsmoothing = 0.1f;
@@ -44,20 +44,40 @@ public class PlayerMovement : MonoBehaviour
         direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         Movement();
-
-
-        if(Input.GetKey("q"))
+        if (anim.GetCurrentAnimatorStateInfo(2).IsTag("attack"))
         {
-            speed = sprintspeed;
-            maxVelocity = sprintspeed;
-            anim.SetBool("Sprinting", true);
+            attacking = true;
+            anim.SetLayerWeight(2, 1);
+            var lookDir = transform.position - camAIM.position;
+            lookDir.y = 0;
+            transform.rotation = Quaternion.LookRotation(lookDir);
+
+            speed = atkMoveSpeed;
+            maxVelocity = atkMoveSpeed;
+
         }
         else
         {
-            speed = normalspeed;
-            maxVelocity = normalspeed;
-            anim.SetBool("Sprinting", false);
+            attacking = false;
+            anim.SetLayerWeight(2, 0);
         }
+
+        if(attacking == false)
+        {
+            if (Input.GetKey("q"))
+            {
+                speed = sprintspeed;
+                maxVelocity = sprintspeed;
+                anim.SetBool("Sprinting", true);
+            }
+            else
+            {
+                speed = normalspeed;
+                maxVelocity = normalspeed;
+                anim.SetBool("Sprinting", false);
+            }
+        }
+
 
 
         anim.SetBool("walking", false);
@@ -106,9 +126,12 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-            
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (attacking == false)
+            {
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
+
             
 
 
