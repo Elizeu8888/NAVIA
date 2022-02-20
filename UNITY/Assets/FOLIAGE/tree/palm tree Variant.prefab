@@ -80,7 +80,11 @@ PrefabInstance:
     - target: {fileID: -7918335002988649766, guid: 933f405cd6c93f2438b99af314bb7516, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 083e079639d08914d8230f7634ed2deb, type: 2}
+      objectReference: {fileID: 2100000, guid: b05cdf854051ad743a308dc77d5a39ca, type: 2}
+    - target: {fileID: -7029948723529949830, guid: 933f405cd6c93f2438b99af314bb7516, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 933f405cd6c93f2438b99af314bb7516, type: 3}
       propertyPath: m_Name
       value: palm tree Variant

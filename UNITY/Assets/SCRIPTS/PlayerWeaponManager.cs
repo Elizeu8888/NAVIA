@@ -6,6 +6,7 @@ public class PlayerWeaponManager : MonoBehaviour
 {
 
     public Collider[] weaponsCOLLIDER;
+    public Collider weaponCOL;
     public GameObject[] weapons;
     GameObject weapon;
     public Transform rightHand;
@@ -27,8 +28,6 @@ public class PlayerWeaponManager : MonoBehaviour
 
     void Update()
     {
-
-
 
         if (Input.GetKeyDown("f"))
         {
@@ -103,7 +102,7 @@ public class PlayerWeaponManager : MonoBehaviour
         Collider[] cols = Physics.OverlapBox(col.bounds.center, col.bounds.extents, col.transform.rotation, LayerMask.GetMask("HitBoxes"));
         foreach (Collider c in cols)
         {
-
+            print("damageLaunched");
 
             if (c.transform.parent == transform)
             {
@@ -115,14 +114,13 @@ public class PlayerWeaponManager : MonoBehaviour
             switch (c.tag)
             {
                 case "enemy":
-                    
+                    anim.SetTrigger("hit");
                     break;
                 default:
                     Debug.Log("nopedidntwork");
                     break;
 
-            }
-            float timer = 1;
+            }            
 
             c.SendMessageUpwards("TakeDamage", damage);
 
@@ -135,10 +133,16 @@ public class PlayerWeaponManager : MonoBehaviour
         weapon.transform.parent = rightHand;
         weapon.transform.localPosition = new Vector3(0, 0, 0);
         weapon.transform.localRotation = Quaternion.identity;
+        weaponCOL = weapon.GetComponent<BoxCollider>();
     }
     public void RunitWeapon()
     {
         WeaponActivate(weapons[weaponNumber]);
+    }
+    public void DealDamage()
+    {
+        LaunchDamage(weaponCOL, 15);
+        print("damagedelt");
     }
         
     public void RunicRedraw()

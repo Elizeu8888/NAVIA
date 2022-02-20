@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     bool attacking;
+    public float health = 100;
+    public float xp = 0;
 
     public float jumpheight;
     Vector3 direction;
@@ -28,6 +30,17 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator anim;
     public GameObject weaponMenu;
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0) Invoke(nameof(PlayerDeath), 0.5f);
+    }
+    private void PlayerDeath()
+    {
+        print("dead");
+    }
 
     void Start()
     {
@@ -104,7 +117,16 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("X", mouseXSmooth + direction.x);
         mouseXSmooth = Mathf.Lerp(mouseXSmooth, Input.GetAxis("Mouse X"), 4 * Time.deltaTime);
 
-
+        if (rb.velocity.y > 0)
+        {
+            anim.SetBool("rising", true);
+            
+        }
+        else
+        {
+            
+            anim.SetBool("rising", false);
+        }
     }
 
 
