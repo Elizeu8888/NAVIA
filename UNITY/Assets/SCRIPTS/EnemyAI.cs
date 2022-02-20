@@ -40,7 +40,7 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (currentHealth <= 0) anim.Play("dead");
     }
     private void Update()
     {
@@ -121,7 +121,7 @@ public class EnemyAI : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    private void DestroyEnemy()
+    public void DestroyEnemy()
     {
 
         Destroy(gameObject);
