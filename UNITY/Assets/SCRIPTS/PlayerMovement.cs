@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");// uses imput to find direction
         direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        Movement();
         if (anim.GetCurrentAnimatorStateInfo(2).IsTag("attack"))
         {
             attacking = true;
@@ -64,9 +63,6 @@ public class PlayerMovement : MonoBehaviour
             var lookDir = transform.position - camAIM.position;
             lookDir.y = 0;
             transform.rotation = Quaternion.LookRotation(lookDir);
-
-            speed = atkMoveSpeed;
-            maxVelocity = atkMoveSpeed;
 
         }
         else
@@ -79,16 +75,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey("q"))
             {
-                speed = sprintspeed;
-                maxVelocity = sprintspeed;
+                Sprinting();
                 anim.SetBool("Sprinting", true);
             }
             else
             {
-                speed = normalspeed;
-                maxVelocity = normalspeed;
+                Movement();
                 anim.SetBool("Sprinting", false);
             }
+        }
+        else
+        {
+            AtkMove();
         }
 
 
@@ -184,7 +182,54 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+    void AtkMove()
+    {
+        if (direction.magnitude >= 0.1f && !weaponMenu.activeSelf)
+        {
 
+
+            float targetangle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;// finds direction of movement
+
+
+
+
+
+            if (attacking == false)
+            {
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
+
+
+
+
+
+
+
+            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
+            rb.AddForce(movedir.normalized * atkMoveSpeed * Time.deltaTime, ForceMode.Impulse);
+        }
+        else
+        {
+            if (isgrounded == true)
+            {
+                Vector3 resultVelocity = rb.velocity;
+                resultVelocity.z = 0;
+                resultVelocity.x = 0;
+                rb.velocity = resultVelocity;
+            }
+
+
+        }
+        if (rb.velocity.sqrMagnitude > maxVelocity)// right alt and shift for||||
+        {
+            Vector3 endVelocity = rb.velocity;
+            endVelocity.z *= 0.9f;
+            endVelocity.x *= 0.9f;
+            rb.velocity = endVelocity;
+
+        }
+    }
     void Jump()
     {
 
@@ -195,5 +240,52 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void Sprinting()
+    {
+        if (direction.magnitude >= 0.1f && !weaponMenu.activeSelf)
+        {
 
+
+            float targetangle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;// finds direction of movement
+
+
+
+
+
+            if (attacking == false)
+            {
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
+
+
+
+
+
+
+
+            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
+            rb.AddForce(movedir.normalized * sprintspeed * Time.deltaTime, ForceMode.Impulse);
+        }
+        else
+        {
+            if (isgrounded == true)
+            {
+                Vector3 resultVelocity = rb.velocity;
+                resultVelocity.z = 0;
+                resultVelocity.x = 0;
+                rb.velocity = resultVelocity;
+            }
+
+
+        }
+        if (rb.velocity.sqrMagnitude > sprintspeed)// right alt and shift for||||
+        {
+            Vector3 endVelocity = rb.velocity;
+            endVelocity.z *= 0.9f;
+            endVelocity.x *= 0.9f;
+            rb.velocity = endVelocity;
+
+        }
+    }
 }

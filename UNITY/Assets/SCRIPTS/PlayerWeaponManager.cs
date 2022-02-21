@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerWeaponManager : MonoBehaviour
 {
 
-    public Collider[] weaponsCOLLIDER;
     public Collider weaponCOL;
+    public Weapon weapScript;
     public GameObject[] weapons;
+    public Weapon[] weaponList;
     GameObject weapon;
     public Transform rightHand;
 
@@ -23,12 +24,27 @@ public class PlayerWeaponManager : MonoBehaviour
 
     void Start()
     {
-        
+
+        weaponList = new Weapon[50];
+
+        weaponList[0] = new Weapon();
+        weaponList[0].InitWeapon("lava", 15, 0.7f);
+
+        weaponList[1] = new Weapon();
+        weaponList[1].InitWeapon("water", 10, 1.2f);
+
+        weaponList[2] = new Weapon();
+        weaponList[2].InitWeapon("toxin", 12, 1f);
+
+        weaponList[3] = new Weapon();
+        weaponList[3].InitWeapon("gum", 15, 0.7f);
+
+
     }
 
     void Update()
     {
-
+        anim.SetFloat("speedanim", weaponList[weaponNumber].GetSpeed());
         if (Input.GetKeyDown("f"))
         {
             if (weapondrawn == false)
@@ -58,6 +74,7 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             Attack();
         }
+
     }
 
 
@@ -127,6 +144,7 @@ public class PlayerWeaponManager : MonoBehaviour
         }
 
     }
+
     public void WeaponActivate(GameObject wep)
     {
         weapon = Instantiate(wep, new Vector3(0,0,0), Quaternion.identity);
@@ -135,14 +153,14 @@ public class PlayerWeaponManager : MonoBehaviour
         weapon.transform.localRotation = Quaternion.identity;
         weaponCOL = weapon.GetComponent<BoxCollider>();
     }
-    public void RunitWeapon()
+
+    public void WeaponLauncher()
     {
         WeaponActivate(weapons[weaponNumber]);
     }
     public void DealDamage()
     {
-        LaunchDamage(weaponCOL, 15);
-        print("damagedelt");
+        LaunchDamage(weaponCOL, weaponList[weaponNumber].GetDamage());
     }
         
     public void RunicRedraw()
@@ -154,7 +172,6 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         anim.SetLayerWeight(1, 0);
     }
-
 
     public void Weapon1()
     {
@@ -185,3 +202,4 @@ public class PlayerWeaponManager : MonoBehaviour
         weaponMenu.SetActive(false);
     }
 }
+

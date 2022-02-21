@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public int state;
     public NavMeshAgent agent;
 
     public Transform player;
