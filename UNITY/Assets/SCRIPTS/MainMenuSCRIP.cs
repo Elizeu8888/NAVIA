@@ -8,7 +8,7 @@ public class MainMenuSCRIP : MonoBehaviour
 {
 
 
-    public GameObject fire,mainM,settingM,controlsM;
+    public GameObject fire,mainM,settingM,controlsM,audioM;
     public Color green,red;
     public Image fireimage;
 
@@ -39,52 +39,56 @@ public class MainMenuSCRIP : MonoBehaviour
         StartCoroutine(CoruControls());
     }
 
+    public void Audi()
+    {
+        StartCoroutine(CoruAudio());
+    }
 
 
     IEnumerator CoruControls()
     {
-        for (float t = 0f; t < 0.1f; t++)
-            fireimage.color = new Vector4(1f - t, 1f, t, 1f);
-        //fireimage.color = green;
+        fire.SetActive(true);
         mainM.SetActive(false);
         controlsM.SetActive(true);
         yield return new WaitForSeconds(1);
-        for (float t = 0f; t < 5f; t++)
-            fireimage.color = new Vector4(t, 1f, t, 1f);
+        fire.SetActive(false);
     }
     IEnumerator CoruPlay()
     {
-        fireimage.color = red;
+
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     IEnumerator CoruSetting()
     {
-
-        for (float t = 0f; t < 0.1f; t++)
-            fireimage.color = new Vector4(1f - t, 1f, t, 1f);
-        //fireimage.color = green;
+        fire.SetActive(true);
         mainM.SetActive(false);
         settingM.SetActive(true);
         yield return new WaitForSeconds(1);
-        for (float t = 0f; t < 5f; t++)
-            fireimage.color = new Vector4(t, 1f, t, 1f);
+        fire.SetActive(false);
 
     }
     IEnumerator CoruBack()
     {
-
-        for (float t = 0f; t < 0.1f; t++)
-            fireimage.color = new Vector4(1f - t, 1f, t, 1f);
+        fire.SetActive(true);
         mainM.SetActive(true);
         settingM.SetActive(false);
         controlsM.SetActive(false);
+        audioM.SetActive(false);
         yield return new WaitForSeconds(1);
-        for (float t = 0f; t < 5f; t++)
-            fireimage.color = new Vector4(t, 1f, t, 1f);
+        fire.SetActive(false);
     }
 
+    IEnumerator CoruAudio()
+    {
+        fire.SetActive(true);
+        mainM.SetActive(false);
+        audioM.SetActive(true);
+        settingM.SetActive(false);
+        yield return new WaitForSeconds(1);
+        fire.SetActive(false);
 
+    }
 
 
 

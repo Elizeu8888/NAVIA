@@ -115,7 +115,7 @@ Material:
     - depth_strength: 1.32
     - normal_strength: 0.53
     - refracyStrength: 6.96
-    - tiling: 9
+    - tiling: 15
     - wavehieght: -3.72
     - wavespeed: 0.019
     m_Colors:
@@ -123,8 +123,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - bottom: {r: 0, g: 1, b: 0.8721261, a: 0.8156863}
-    - top: {r: 0.28123888, g: 0.7270132, b: 0.754717, a: 0.79607844}
+    - bottom: {r: 0.052954797, g: 0.6603774, b: 0.5844496, a: 0.8156863}
+    - top: {r: 0.16113384, g: 0.6411533, b: 0.6698113, a: 0.79607844}
   m_BuildTextureStacks: []
 --- !u!114 &252550055918135331
 MonoBehaviour:

@@ -6,7 +6,7 @@ public class CamAnim : MonoBehaviour
 {
 
 
-    public Animator anim;
+    public Animator anim,startAnim;
     public GameObject startmenu, mainmenu;
 
     void Update()
@@ -14,7 +14,8 @@ public class CamAnim : MonoBehaviour
         if(Input.anyKey)
         {
             anim.SetBool("STARTED", true);
-            startmenu.SetActive(false);
+            startAnim.SetTrigger("pressed");
+            //startmenu.SetActive(false);
         }
     }
 
