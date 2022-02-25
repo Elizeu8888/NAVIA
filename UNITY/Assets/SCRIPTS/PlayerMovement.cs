@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public Transform cam,camAIM;
     public float speed = 6f;
-    public float normalspeed, sprintspeed, atkMoveSpeed;
+    public float normalspeed, sprintspeed, atkMoveSpeed,dashSpeed;
 
 
     public float turnsmoothing = 0.1f;
@@ -26,10 +26,14 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundcheck;
     public float grounddistance = 0.4f;
     public LayerMask groundmask;
-    public bool isgrounded;
+    public bool isgrounded,isdashing;
+
+    bool dashcooldown = false;
+    public float timeRemaining = 0.5f;
 
     public Animator anim;
     public GameObject weaponMenu;
+    public ParticleSystem particleSystem;
 
     public void TakeDamage(int damage)
     {
@@ -71,9 +75,56 @@ public class PlayerMovement : MonoBehaviour
             anim.SetLayerWeight(2, 0);
         }
 
-        if(attacking == false)
+
+
+        if(Input.GetKeyDown("q") && dashcooldown == false)
         {
-            if (Input.GetKey("q"))
+
+            isdashing = true;
+
+
+        }
+
+
+
+        if (isdashing == true)
+        {
+
+            for (float a = 0.3f; a>0; a -= 0.1f)
+            {
+                particleSystem.Play();
+                float targetangle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+
+                Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
+                rb.AddForce(movedir.normalized * dashSpeed * Time.deltaTime, ForceMode.VelocityChange);
+            }
+            isdashing = false;
+            dashcooldown = true;
+
+        }
+        else
+        {
+            particleSystem.Stop();
+        }
+
+        if(dashcooldown == true)
+        {
+            timeRemaining -= Time.deltaTime;
+            
+        }
+
+        if (timeRemaining < 0)
+        {
+            dashcooldown = false;
+            timeRemaining = 0.5f;
+        }
+
+
+
+
+        if (attacking == false)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 Sprinting();
                 anim.SetBool("Sprinting", true);
