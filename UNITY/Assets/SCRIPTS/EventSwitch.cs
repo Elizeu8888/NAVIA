@@ -11,6 +11,7 @@ public class EventSwitch : MonoBehaviour
     public UnityEvent altUse3;
     public UnityEvent altUse4;
     public UnityEvent altUse5;
+    public UnityEvent altUse6;
     public UnityEvent damage;
     //public SoundManager soundscript;
 
@@ -45,5 +46,9 @@ public class EventSwitch : MonoBehaviour
     public void AltUse5()
     {
         altUse5.Invoke();
+    }
+    public void AltUse6()
+    {
+        altUse6.Invoke();
     }
 }

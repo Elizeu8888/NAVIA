@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public Transform cam,camAIM;
     public float speed = 6f;
-    public float normalspeed, sprintspeed, atkMoveSpeed,dashSpeed;
+    public float normalspeed, sprintspeed, atkMoveSpeed,dashSpeed, jumpVelocity;
 
 
     public float turnsmoothing = 0.1f;
@@ -54,6 +54,13 @@ public class PlayerMovement : MonoBehaviour
         //Cursor.lockState = CursorLockMode.None;     // set to default default
     }
 
+
+    public void StopDashing()
+    {       
+        anim.SetLayerWeight(3, 0);
+    }
+
+
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -79,28 +86,26 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown("q") && dashcooldown == false)
         {
-
             isdashing = true;
-
-
+            anim.SetBool("dashing", true);
         }
-
-
 
         if (isdashing == true)
         {
 
-            for (float a = 0.3f; a>0; a -= 0.1f)
+            for (float a = 0.1f; a>0; a -= 0.1f * Time.deltaTime)
             {
                 particleSystem.Play();
                 float targetangle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
 
                 Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
                 rb.AddForce(movedir.normalized * dashSpeed * Time.deltaTime, ForceMode.VelocityChange);
+                anim.Play("dash");
+                anim.SetLayerWeight(3, 1);
             }
             isdashing = false;
             dashcooldown = true;
-
+            anim.SetBool("dashing", false);
         }
         else
         {
@@ -116,7 +121,8 @@ public class PlayerMovement : MonoBehaviour
         if (timeRemaining < 0)
         {
             dashcooldown = false;
-            timeRemaining = 0.5f;
+            timeRemaining = 1f;
+            print("dashed");
         }
 
 
@@ -183,6 +189,17 @@ public class PlayerMovement : MonoBehaviour
     {
         isgrounded = Physics.CheckSphere(groundcheck.position, grounddistance, groundmask);
         Jump();
+        if(rb.velocity.y > 0)
+        {
+            if (rb.velocity.sqrMagnitude > jumpVelocity)
+            {
+                Vector3 endVelocity = rb.velocity;
+                endVelocity.y *= 0.9f;
+                rb.velocity = endVelocity;
+
+            }
+        }
+
     }
 
     void Movement()
@@ -238,24 +255,13 @@ public class PlayerMovement : MonoBehaviour
         if (direction.magnitude >= 0.1f && !weaponMenu.activeSelf)
         {
 
-
             float targetangle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;// finds direction of movement
-
-
-
-
 
             if (attacking == false)
             {
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
-
-
-
-
-
-
 
             Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
             rb.AddForce(movedir.normalized * atkMoveSpeed * Time.deltaTime, ForceMode.Impulse);
@@ -270,7 +276,6 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = resultVelocity;
             }
 
-
         }
         if (rb.velocity.sqrMagnitude > maxVelocity)// right alt and shift for||||
         {
@@ -283,7 +288,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void Jump()
     {
-
         if (Input.GetKey("space") && isgrounded)
         {
             rb.AddForce(transform.up.normalized * jumpheight, ForceMode.Impulse);// here u jump
@@ -296,11 +300,7 @@ public class PlayerMovement : MonoBehaviour
         if (direction.magnitude >= 0.1f && !weaponMenu.activeSelf)
         {
 
-
             float targetangle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;// finds direction of movement
-
-
-
 
 
             if (attacking == false)
@@ -308,11 +308,6 @@ public class PlayerMovement : MonoBehaviour
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref turnsmoothvelocity, turnsmoothing);// makes it so the player faces its movement direction
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
-
-
-
-
-
 
 
             Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
@@ -327,7 +322,6 @@ public class PlayerMovement : MonoBehaviour
                 resultVelocity.x = 0;
                 rb.velocity = resultVelocity;
             }
-
 
         }
         if (rb.velocity.sqrMagnitude > sprintspeed)// right alt and shift for||||
