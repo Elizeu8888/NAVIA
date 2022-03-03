@@ -116,7 +116,7 @@ Material:
     - normal_strength: 0.53
     - refracyStrength: 6.96
     - tiling: 15
-    - wavehieght: -3.72
+    - wavehieght: 0
     - wavespeed: 0.019
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
