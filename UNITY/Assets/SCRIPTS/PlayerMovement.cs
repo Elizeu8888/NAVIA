@@ -74,10 +74,11 @@ public class PlayerMovement : MonoBehaviour
             var lookDir = transform.position - camAIM.position;
             lookDir.y = 0;
             transform.rotation = Quaternion.LookRotation(lookDir);
-
+            anim.SetBool("attacking", true);
         }
         else
         {
+            anim.SetBool("attacking", false);
             attacking = false;
             anim.SetLayerWeight(2, 0);
         }
@@ -226,7 +227,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
+            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward;// here is the movement
             rb.AddForce(movedir.normalized * speed * Time.deltaTime, ForceMode.Impulse);
         }
         else
@@ -263,7 +264,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
 
-            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
+            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward;// here is the movement
             rb.AddForce(movedir.normalized * atkMoveSpeed * Time.deltaTime, ForceMode.Impulse);
         }
         else
@@ -310,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
-            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward * Time.deltaTime;// here is the movement
+            Vector3 movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward;// here is the movement
             rb.AddForce(movedir.normalized * sprintspeed * Time.deltaTime, ForceMode.Impulse);
         }
         else

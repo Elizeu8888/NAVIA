@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: forrest trees Variant (3) Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2267244628605388926, guid: b79c34f8ff1d66d49991b75a53dc9ecd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3359873707593530566, guid: b79c34f8ff1d66d49991b75a53dc9ecd, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

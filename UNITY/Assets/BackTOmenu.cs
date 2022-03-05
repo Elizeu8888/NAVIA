@@ -16,6 +16,7 @@ public class BackTOmenu : MonoBehaviour
     {
         if(Input.GetKeyDown("x"))
         {
+            Cursor.lockState = CursorLockMode.Confined;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
