@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Audiomanager : MonoBehaviour
 {
@@ -19,6 +20,50 @@ public class Audiomanager : MonoBehaviour
     public AudioMixer mixerSFX;
     public Slider sldrSFX;
     public Toggle musicONOFF;
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        GetSliders();
+    }
+
+    void Awake()
+    {
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+
+        }
+        DontDestroyOnLoad(gameObject);
+
+
+
+        foreach (Sound s in sounds)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.outputAudioMixerGroup = s.audioMixer;
+            s.source.clip = s.clip;
+            s.source.volume = s.volume;
+            s.source.pitch = s.pitch;
+            s.source.loop = s.loop;
+
+        }
+
+
+
+    }
+    void GetSliders()
+    {
+
+    }
+
     public void SetLevel(float sliderValue)
     {
         mixer.SetFloat("MasterVol", Mathf.Log10(sldr.value) * 20);
@@ -30,6 +75,9 @@ public class Audiomanager : MonoBehaviour
         mixerSFX.SetFloat("SFXvol", Mathf.Log10(sldrSFX.value) * 20);
         PlayerPrefs.SetFloat("SFXvol", sldrSFX.value);
     }
+
+
+
 
     void Start()
     {
@@ -72,42 +120,6 @@ public class Audiomanager : MonoBehaviour
 
 
 
-
-    void Awake()
-    {
-
-
-
-        if (instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        else
-        {
-            instance = this;
-            
-        }
-        DontDestroyOnLoad(gameObject);
-
-
-
-        foreach (Sound s in sounds)
-        {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.outputAudioMixerGroup = s.audioMixer;
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-
-        }
-
-
-
-    }
-
-
     public void Buttonsound()
     {
         Play("click");
@@ -137,5 +149,6 @@ public class Audiomanager : MonoBehaviour
         }
 
     }
+
 
 }

@@ -11,6 +11,7 @@ public class MainMenuSCRIP : MonoBehaviour
     public GameObject fire,mainM,settingM,controlsM,audioM;
     public Color green,red;
     public Image fireimage;
+    public Button start, audio, exit, audioBack;
 
     public float aTime = 1f;
 
@@ -21,7 +22,7 @@ public class MainMenuSCRIP : MonoBehaviour
 
     public void Exit()
     {
-
+        Application.Quit();
     }
 
     public void Options()
@@ -50,6 +51,7 @@ public class MainMenuSCRIP : MonoBehaviour
         fire.SetActive(true);
         mainM.SetActive(false);
         controlsM.SetActive(true);
+        exit.Select();
         yield return new WaitForSeconds(1);
         fire.SetActive(false);
     }
@@ -64,9 +66,9 @@ public class MainMenuSCRIP : MonoBehaviour
         fire.SetActive(true);
         mainM.SetActive(false);
         settingM.SetActive(true);
+        audio.Select();
         yield return new WaitForSeconds(1);
         fire.SetActive(false);
-
     }
     IEnumerator CoruBack()
     {
@@ -75,6 +77,7 @@ public class MainMenuSCRIP : MonoBehaviour
         settingM.SetActive(false);
         controlsM.SetActive(false);
         audioM.SetActive(false);
+        start.Select();
         yield return new WaitForSeconds(1);
         fire.SetActive(false);
     }
@@ -85,6 +88,7 @@ public class MainMenuSCRIP : MonoBehaviour
         mainM.SetActive(false);
         audioM.SetActive(true);
         settingM.SetActive(false);
+        audioBack.Select();
         yield return new WaitForSeconds(1);
         fire.SetActive(false);
 
